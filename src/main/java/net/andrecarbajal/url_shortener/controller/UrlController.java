@@ -3,14 +3,13 @@ package net.andrecarbajal.url_shortener.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import net.andrecarbajal.url_shortener.domain.url.UrlRecord;
 import net.andrecarbajal.url_shortener.domain.url.UrlService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
@@ -22,9 +21,10 @@ public class UrlController {
 
     @PostMapping("/shorten")
     @Transactional
-    public ResponseEntity<String> shortenUrl(@RequestBody UrlRecord data) {
-        String shortUrl = urlService.shortenUrl(data.originalUrl());
-        return ResponseEntity.ok(shortUrl);
+    public String shortenUrl(@RequestParam("originalUrl") String originalUrl, Model model) {
+        String shortUrl = urlService.shortenUrl(originalUrl);
+        model.addAttribute("shortUrl", shortUrl);
+        return "index";
     }
 
     @GetMapping("/{urlCode}")

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>URL Shortener</title>
+</head>
+<body>
+<h1>URL Shortener</h1>
+<form action="/shorten" method="post">
+    <label for="originalUrl">Enter URL to shorten:</label>
+    <input type="text" id="originalUrl" name="originalUrl" required>
+    <button type="submit">Shorten</button>
+</form>
+<div>
+    <h2>Shortened URL:</h2>
+    <p th:if="${shortUrl}" th:text="${shortUrl}"></p>
+</div>
+</body>
+</html>

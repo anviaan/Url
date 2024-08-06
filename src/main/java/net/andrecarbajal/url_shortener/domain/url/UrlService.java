@@ -10,13 +10,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
 public class UrlService {
-
     private final UrlRepository urlRepository;
 
     public String shortenUrl(String originalUrl) {
@@ -24,15 +24,20 @@ public class UrlService {
             throw new ValidationException("Invalid URL format");
         }
 
+        List<Url> existingUrls = urlRepository.findByOriginalUrl(originalUrl);
+        if (!existingUrls.isEmpty()) {
+            return "http://localhost:8080/" + existingUrls.get(0).getUrlCode();
+        }
+
+        String urlCode = generateCode();
         Url url = Url.builder()
                 .originalUrl(originalUrl)
-                .urlCode(generateCode())
+                .urlCode(urlCode)
                 .createdAt(new Date())
                 .build();
         urlRepository.save(url);
 
-        String BASE_URL = "http://localhost:8080/";
-        return BASE_URL + generateCode();
+        return "http://localhost:8080/" + urlCode;
     }
 
     public String getOriginalUrl(String shortUrl) {
@@ -69,7 +74,7 @@ public class UrlService {
         int CODE_LENGTH = 6;
         StringBuilder code = new StringBuilder(CODE_LENGTH);
         for (int i = 0; i < CODE_LENGTH; i++) {
-            code.append(CHAR_SET.charAt( new SecureRandom().nextInt(CHAR_SET.length())));
+            code.append(CHAR_SET.charAt(new SecureRandom().nextInt(CHAR_SET.length())));
         }
         return code.toString();
     }
