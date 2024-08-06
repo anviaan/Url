@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -39,10 +40,6 @@ public class UrlService {
         return url.map(Url::getOriginalUrl).orElse(null);
     }
 
-    private String generateCode() {
-        return Long.toHexString(System.currentTimeMillis());
-    }
-
     private boolean isValidUrl(String url) {
         String URL_REGEX = "^(https?|ftp)://([a-zA-Z0-9.-]+)(:[0-9]+)?(/.*)?$";
         Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
@@ -65,5 +62,16 @@ public class UrlService {
         } catch (MalformedURLException | URISyntaxException e) {
             return false;
         }
+    }
+
+    private String generateCode() {
+        String CHAR_SET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        int CODE_LENGTH = 6;
+        SecureRandom random = new SecureRandom();
+        StringBuilder code = new StringBuilder(CODE_LENGTH);
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            code.append(CHAR_SET.charAt(random.nextInt(CHAR_SET.length())));
+        }
+        return code.toString();
     }
 }
