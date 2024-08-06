@@ -1,10 +1,16 @@
 package net.andrecarbajal.url_shortener.domain.url;
 
 import lombok.RequiredArgsConstructor;
+import net.andrecarbajal.url_shortener.infra.ValidationException;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -12,15 +18,19 @@ public class UrlService {
 
     private final UrlRepository urlRepository;
 
-    private final String BASE_URL = "http://localhost:8080/";
-
     public String shortenUrl(String originalUrl) {
+        if (!isValidUrl(originalUrl)) {
+            throw new ValidationException("Invalid URL format");
+        }
+
         Url url = Url.builder()
                 .originalUrl(originalUrl)
                 .urlCode(generateCode())
                 .createdAt(new Date())
                 .build();
         urlRepository.save(url);
+
+        String BASE_URL = "http://localhost:8080/";
         return BASE_URL + generateCode();
     }
 
@@ -31,5 +41,29 @@ public class UrlService {
 
     private String generateCode() {
         return Long.toHexString(System.currentTimeMillis());
+    }
+
+    private boolean isValidUrl(String url) {
+        String URL_REGEX = "^(https?|ftp)://([a-zA-Z0-9.-]+)(:[0-9]+)?(/.*)?$";
+        Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
+
+        if (!URL_PATTERN.matcher(url).matches()) {
+            return false;
+        }
+
+        try {
+            URL urlObj = new URI(url).toURL();
+            String protocol = urlObj.getProtocol();
+            String host = urlObj.getHost();
+
+            if (protocol == null || host == null || host.isEmpty()) {
+                return false;
+            }
+
+            String[] hostParts = host.split("\\.");
+            return hostParts.length >= 2 && !hostParts[0].isEmpty() && !hostParts[hostParts.length - 1].isEmpty();
+        } catch (MalformedURLException | URISyntaxException e) {
+            return false;
+        }
     }
 }
