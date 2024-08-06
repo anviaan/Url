@@ -17,19 +17,19 @@ public class UrlService {
     public String shortenUrl(String originalUrl) {
         Url url = Url.builder()
                 .originalUrl(originalUrl)
-                .shortUrl(BASE_URL + generateShortUrl())
+                .urlCode(generateCode())
                 .createdAt(new Date())
                 .build();
         urlRepository.save(url);
-        return url.getShortUrl();
+        return BASE_URL + generateCode();
     }
 
     public String getOriginalUrl(String shortUrl) {
-        Optional<Url> url = urlRepository.findByShortUrl(shortUrl);
+        Optional<Url> url = urlRepository.findByUrlCode(shortUrl);
         return url.map(Url::getOriginalUrl).orElse(null);
     }
 
-    private String generateShortUrl() {
+    private String generateCode() {
         return Long.toHexString(System.currentTimeMillis());
     }
 }

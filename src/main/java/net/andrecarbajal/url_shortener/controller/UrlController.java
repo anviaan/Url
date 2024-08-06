@@ -27,9 +27,9 @@ public class UrlController {
         return ResponseEntity.ok(shortUrl);
     }
 
-    @GetMapping("/{shortUrl}")
-    public void getOriginalUrl(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
-        String originalUrl = urlService.getOriginalUrl(shortUrl);
+    @GetMapping("/{urlCode}")
+    public void getOriginalUrl(@PathVariable String urlCode, HttpServletResponse response) throws IOException {
+        String originalUrl = urlService.getOriginalUrl(urlCode);
         if (originalUrl != null) {
             response.sendRedirect(originalUrl);
         } else {

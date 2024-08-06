@@ -19,8 +19,8 @@ public class Url {
     @JoinColumn(name = "original_url")
     private String originalUrl;
 
-    @JoinColumn(name = "short_url")
-    private String shortUrl;
+    @JoinColumn(name = "url_code")
+    private String urlCode;
 
     @JoinColumn(name = "created_at")
     private Date createdAt;

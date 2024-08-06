@@ -1,0 +1,1 @@
+ALTER TABLE url RENAME COLUMN short_url TO url_code;
