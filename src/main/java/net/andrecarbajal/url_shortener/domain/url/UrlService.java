@@ -67,10 +67,9 @@ public class UrlService {
     private String generateCode() {
         String CHAR_SET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         int CODE_LENGTH = 6;
-        SecureRandom random = new SecureRandom();
         StringBuilder code = new StringBuilder(CODE_LENGTH);
         for (int i = 0; i < CODE_LENGTH; i++) {
-            code.append(CHAR_SET.charAt(random.nextInt(CHAR_SET.length())));
+            code.append(CHAR_SET.charAt( new SecureRandom().nextInt(CHAR_SET.length())));
         }
         return code.toString();
     }
