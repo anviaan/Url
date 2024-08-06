@@ -24,6 +24,7 @@ public class UrlController {
     public String shortenUrl(@RequestParam("originalUrl") String originalUrl, Model model) {
         String shortUrl = urlService.shortenUrl(originalUrl);
         model.addAttribute("shortUrl", shortUrl);
+        model.addAttribute("originalUrl", originalUrl);
         return "index";
     }
 
