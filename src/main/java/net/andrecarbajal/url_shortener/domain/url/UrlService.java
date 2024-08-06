@@ -26,7 +26,7 @@ public class UrlService {
 
         List<Url> existingUrls = urlRepository.findByOriginalUrl(originalUrl);
         if (!existingUrls.isEmpty()) {
-            return "http://localhost:8080/" + existingUrls.get(0).getUrlCode();
+            return "http://localhost:8080/" + existingUrls.getFirst().getUrlCode();
         }
 
         String urlCode = generateCode();
