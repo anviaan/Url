@@ -5,31 +5,34 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>URL Shortener</title>
 </head>
-<body>
-<h1>URL Shortener</h1>
-<form action="/shorten" method="post">
-    <label for="originalUrl">Enter URL to shorten:</label>
-    <input type="text" id="originalUrl" name="originalUrl" required>
-    <button type="submit">Shorten</button>
-</form>
-<div>
-    <h2>URLs</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Shortened URL</th>
-            <th>Original URL</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="url : ${urls}">
-            <td th:text="'http://localhost:8080/' + ${url.urlCode}"></td>
-            <td th:text="${url.originalUrl}"></td>
-        </tr>
-        </tbody>
-    </table>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<div class="text-center">
+    <h1 class="text-3xl font-bold mb-4">URL Shortener</h1>
+    <form action="/shorten" method="post" class="mb-4">
+        <label for="originalUrl" class="block mb-2">Enter URL to shorten:</label>
+        <input type="text" id="originalUrl" name="originalUrl" required class="border p-2 mb-4 w-full">
+        <button type="submit" class="bg-purple-500 text-white p-2 rounded">Shorten</button>
+    </form>
+    <div>
+        <h2 class="text-2xl font-semibold mb-4">URLs</h2>
+        <table class="table-auto w-full">
+            <thead>
+            <tr>
+                <th class="px-4 py-2">Original URL</th>
+                <th class="px-4 py-2">Shortened URL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="url : ${urls}">
+                <td class="border px-4 py-2" th:text="${url.originalUrl}"></td>
+                <td class="border px-4 py-2" th:text="'http://localhost:8080/' + ${url.urlCode}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

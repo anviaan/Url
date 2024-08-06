@@ -25,7 +25,7 @@ public class UrlController {
     @Transactional
     public String shortenUrl(@RequestParam("originalUrl") String originalUrl, Model model) {
         String shortUrl = urlService.shortenUrl(originalUrl);
-        List<Url> urls = urlService.getAllUrls();
+        List<Url> urls = urlService.getAllUrls().reversed();
         model.addAttribute("shortUrl", shortUrl);
         model.addAttribute("originalUrl", originalUrl);
         model.addAttribute("urls", urls);
