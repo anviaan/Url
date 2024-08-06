@@ -45,6 +45,10 @@ public class UrlService {
         return url.map(Url::getOriginalUrl).orElse(null);
     }
 
+    public List<Url> getAllUrls() {
+        return urlRepository.findAll();
+    }
+
     private boolean isValidUrl(String url) {
         String URL_REGEX = "^(https?|ftp)://([a-zA-Z0-9.-]+)(:[0-9]+)?(/.*)?$";
         Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
