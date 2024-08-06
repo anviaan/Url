@@ -1,19 +1,19 @@
 package net.andrecarbajal.url_shortener.domain.url;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "url")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class Url {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @JoinColumn(name = "original_url")
