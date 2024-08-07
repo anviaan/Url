@@ -1,4 +1,4 @@
-FROM eclipse-temurin-21
+FROM eclipse-temurin:21.0.4_7-jre
 
 LABEL maintainer="andre-carbajal"
 
