@@ -1,3 +1,8 @@
+server:
+  port: 8080
+
+app:
+  base-url: ${APP_BASE_URL}
 spring:
   application:
     name: Url Shortener
@@ -7,10 +12,3 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-
-server:
-  port: 8080
-  address: 0.0.0.0
-
-app:
-  base-url: ${APP_BASE_URL}
