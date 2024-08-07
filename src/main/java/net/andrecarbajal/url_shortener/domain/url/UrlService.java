@@ -1,7 +1,9 @@
 package net.andrecarbajal.url_shortener.domain.url;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.andrecarbajal.url_shortener.infra.ValidationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
@@ -19,6 +21,10 @@ import java.util.regex.Pattern;
 public class UrlService {
     private final UrlRepository urlRepository;
 
+    @Getter
+    @Value("${app.base-url}")
+    private String baseUrl;
+
     public String shortenUrl(String originalUrl) {
         if (!isValidUrl(originalUrl)) {
             throw new ValidationException("Invalid URL format");
@@ -26,7 +32,7 @@ public class UrlService {
 
         List<Url> existingUrls = urlRepository.findByOriginalUrl(originalUrl);
         if (!existingUrls.isEmpty()) {
-            return "http://localhost:8080/" + existingUrls.getFirst().getUrlCode();
+            return baseUrl + existingUrls.getFirst().getUrlCode();
         }
 
         String urlCode = generateCode();
@@ -37,7 +43,7 @@ public class UrlService {
                 .build();
         urlRepository.save(url);
 
-        return "http://localhost:8080/" + urlCode;
+        return baseUrl + urlCode;
     }
 
     public String getOriginalUrl(String shortUrl) {

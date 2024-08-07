@@ -23,5 +23,6 @@ ENV DB_PORT=''
 ENV DB_DATABASE = ''
 ENV DB_USERNAME=''
 ENV DB_PASSWORD=''
+ENV APP_BASE_URL=''
 
 ENTRYPOINT ["java", "-Xmx512m", "-jar","-Dspring.profiles.active=prod", "/app/app.jar"]
